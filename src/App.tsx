@@ -5,6 +5,8 @@ import { Heading } from "./components/Heading";
 import Pokeball from "./assets/pokeball.svg";
 import { PokemonCard } from "./components/PokemonCard";
 import { api } from "./services/api";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 interface IPokemon {
   name: string;
@@ -14,13 +16,34 @@ export default function App() {
   const [query, setQuery] = useState("");
   const [pokemon, setPokemon] = useState<IPokemon | null>(null);
 
+  function showError(errorMessage: string) {
+    toast.error(errorMessage, {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  }
+
   async function handleSearch() {
-    await api.get(`/pokemon/${query}`).then((res) => {
-      setPokemon(res.data)
-      console.log(res.data)
-    }).catch(() => {
-      console.log('asl')
-    })
+    await api
+      .get(`/pokemon/${query.toLowerCase()}`)
+      .then((res) => {
+        setPokemon(res.data);
+      })
+      .catch((error: AxiosError) => {
+        if (error.response?.status === 404) {
+          showError("Oops, o Pókemon digitado não existe!");
+        } else {
+          showError(
+            "Aconteceu um erro inesperado, tente novamente mais tarde!"
+          );
+        }
+      });
   }
 
   return (
@@ -28,7 +51,7 @@ export default function App() {
       <div className="flex gap-8 flex-col w-4/5 md:min-w-1/2 xl:w-2/3">
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 ">
           <img src={Pokeball} alt="Pokeball" className="mt-0.5" />
-          <Heading content={import.meta.env.VITE_BASE_URL} />
+          <Heading content="Pesquise agora as habilidades de qualquer Pokémon!" />
         </div>
 
         <div className="relative flex w-4/5 md:w-1/2 mx-auto">
