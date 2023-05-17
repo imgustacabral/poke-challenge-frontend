@@ -36,6 +36,7 @@ export default function App() {
         setPokemon(res.data);
       })
       .catch((error: AxiosError) => {
+        setPokemon(null);
         if (error.response?.status === 404) {
           showError("Oops, o Pókemon digitado não existe!");
         } else {
@@ -47,7 +48,7 @@ export default function App() {
   }
 
   return (
-    <div className="bg-[#DC0A2D] h-screen flex p-4 lg:px-10 lg:py-24 justify-center">
+    <div className="bg-[#DC0A2D] min-h-screen h-full flex p-4 lg:px-10 lg:py-24 justify-center">
       <div className="flex gap-8 flex-col w-4/5 md:min-w-1/2 xl:w-2/3">
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 ">
           <img src={Pokeball} alt="Pokeball" className="mt-0.5" />
