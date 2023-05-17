@@ -15,7 +15,6 @@ export const Input: React.FC<InputProps> = ({
   placeholder,
   value,
   setValue,
-  additionalClasses,
   type = "text",
   required,
   disabled,
@@ -25,16 +24,15 @@ export const Input: React.FC<InputProps> = ({
   };
 
   return (
-      
-      <input
-        className={`border py-2 px-4 rounded-lg w-full text-gray-700 leading-tight outline-none ${additionalClasses}` }
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={handleChange}
-        required={required}
-        disabled={disabled}
-      />
+    <input
+      className="border py-2 px-4 rounded-lg w-full text-gray-700 leading-tight outline-none"
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={handleChange}
+      required={required}
+      disabled={disabled}
+    />
   );
 };
 
